@@ -2,11 +2,6 @@
 
 namespace MongoQB;
 
-/**
- * @codeCoverageIgnore
- */
-class Exception extends \Exception {}
-
 class Builder
 {
     /**
@@ -160,7 +155,7 @@ class Builder
     {
         if ( ! class_exists('\Mongo')) {
             // @codeCoverageIgnoreStart
-            throw new \MongoQB\Exception('The MongoDB PECL extension has not been
+            throw new Exception('The MongoDB PECL extension has not been
              installed or enabled');
             // @codeCoverageIgnoreEnd
         }
@@ -181,7 +176,7 @@ class Builder
         if (is_array($config)) {
             $this->_configData = array_merge($config, $this->_configData);
         } else {
-            throw new \MongoQB\Exception('No config variables passed');
+            throw new Exception('No config variables passed');
         }
 
         $this->_connectionString();
@@ -202,7 +197,7 @@ class Builder
     public function switchDb($dsn = '')
     {
         if (empty($dsn)) {
-            throw new \MongoQB\Exception('To switch MongoDB databases, a
+            throw new Exception('To switch MongoDB databases, a
              DSN must be specified');
         }
 
@@ -212,7 +207,7 @@ class Builder
             $this->_connectionString();
             $this->_connect();
         } catch (\MongoConnectionException $Exception) {
-            throw new \MongoQB\Exception('Unable to switch Mongo Databases: ' .
+            throw new Exception('Unable to switch Mongo Databases: ' .
              $Exception->getMessage());
         }
     }
@@ -229,7 +224,7 @@ class Builder
     {
         if (empty($database)) {
 
-           throw new \MongoQB\Exception('Failed to drop MongoDB database because
+           throw new Exception('Failed to drop MongoDB database because
             name is empty');
 
         } else {
@@ -240,7 +235,7 @@ class Builder
             }
             // @codeCoverageIgnoreStart
             catch (\Exception $Exception) {
-                throw new \MongoQB\Exception('Unable to drop Mongo database `' .
+                throw new Exception('Unable to drop Mongo database `' .
                  $database . '`: ' . $Exception->getMessage());
                 // @codeCoverageIgnoreEnd
             }
@@ -260,12 +255,12 @@ class Builder
     public function dropCollection($database = '', $collection = '')
     {
         if (empty($database)) {
-            throw new \MongoQB\Exception('Failed to drop MongoDB collection because
+            throw new Exception('Failed to drop MongoDB collection because
              database name is empty', 500);
         }
 
         if (empty($collection)) {
-            throw new \MongoQB\Exception('Failed to drop MongoDB collection because
+            throw new Exception('Failed to drop MongoDB collection because
              collection name is empty', 500);
         } else {
             try {
@@ -275,7 +270,7 @@ class Builder
             }
             // @codeCoverageIgnoreStart
             catch (\Exception $Exception) {
-                throw new \MongoQB\Exception('Unable to drop Mongo collection `' .
+                throw new Exception('Unable to drop Mongo collection `' .
                  $collection . '`: ' . $Exception->getMessage(), 500);
                 // @codeCoverageIgnoreEnd
             }
@@ -743,7 +738,7 @@ class Builder
     public function get($collection = '', $returnCursor = false)
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('In order to retrieve documents from
+            throw new Exception('In order to retrieve documents from
              MongoDB, a collection name must be passed');
         }
 
@@ -770,7 +765,7 @@ class Builder
             }
             // @codeCoverageIgnoreStart
             catch (\MongoCursorException $Exception) {
-                throw new \MongoQB\Exception($Exception->getMessage());
+                throw new Exception($Exception->getMessage());
                 // @codeCoverageIgnoreEnd
             }
         }
@@ -791,7 +786,7 @@ class Builder
     public function count($collection = '')
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('In order to retrieve a count of
+            throw new Exception('In order to retrieve a count of
              documents from MongoDB, a collection name must be passed');
         }
 
@@ -823,12 +818,12 @@ class Builder
      $options = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to insert
+            throw new Exception('No Mongo collection selected to insert
              into');
         }
 
         if (count($insert) === 0 OR ! is_array($insert)) {
-            throw new \MongoQB\Exception('Nothing to insert into Mongo collection
+            throw new Exception('Nothing to insert into Mongo collection
              or insert is not an array');
         }
 
@@ -854,7 +849,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Insert of data into MongoDB failed: ' .
+            throw new Exception('Insert of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -876,12 +871,12 @@ class Builder
      $options = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to insert
+            throw new Exception('No Mongo collection selected to insert
              into');
         }
 
         if (count($insert) === 0 || ! is_array($insert)) {
-            throw new \MongoQB\Exception('Nothing to insert into Mongo collection
+            throw new Exception('Nothing to insert into Mongo collection
              or insert is not an array');
         }
 
@@ -899,7 +894,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Insert of data into MongoDB failed: ' .
+            throw new Exception('Insert of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -917,12 +912,12 @@ class Builder
     public function update($collection = '', $options = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to
+            throw new Exception('No Mongo collection selected to
              update');
         }
 
         if (count($this->updates) === 0) {
-            throw new \MongoQB\Exception('Nothing to update in Mongo collection or
+            throw new Exception('Nothing to update in Mongo collection or
              update is not an array');
         }
 
@@ -943,7 +938,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Update of data into MongoDB failed: ' .
+            throw new Exception('Update of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -963,12 +958,12 @@ class Builder
     public function updateAll($collection = '', $options = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to
+            throw new Exception('No Mongo collection selected to
              update');
         }
 
         if (count($this->updates) === 0) {
-            throw new \MongoQB\Exception('Nothing to update in Mongo collection or
+            throw new Exception('Nothing to update in Mongo collection or
              update is not an array');
         }
 
@@ -988,7 +983,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Update of data into MongoDB failed: ' .
+            throw new Exception('Update of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -1234,7 +1229,7 @@ class Builder
     public function delete($collection = '')
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to delete
+            throw new Exception('No Mongo collection selected to delete
              from');
         }
 
@@ -1247,7 +1242,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Delete of data into MongoDB failed: ' .
+            throw new Exception('Delete of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -1267,7 +1262,7 @@ class Builder
     public function deleteAll($collection = '')
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection selected to delete
+            throw new Exception('No Mongo collection selected to delete
              from');
         }
 
@@ -1280,7 +1275,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('Delete of data into MongoDB failed: ' .
+            throw new Exception('Delete of data into MongoDB failed: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -1306,7 +1301,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
-            throw new \MongoQB\Exception('MongoDB command failed to execute: ' .
+            throw new Exception('MongoDB command failed to execute: ' .
              $Exception->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -1331,12 +1326,12 @@ class Builder
      $options = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No MongoDB collection specified to add
+            throw new Exception('No MongoDB collection specified to add
              index to');
         }
 
         if (empty($fields) OR ! is_array($fields)) {
-            throw new \MongoQB\Exception('Index could not be added to MongoDB
+            throw new Exception('Index could not be added to MongoDB
              collection because no keys were specified');
         }
 
@@ -1359,7 +1354,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (\Exception $e) {
-            throw new \MongoQB\Exception('An error occurred when trying to add an
+            throw new Exception('An error occurred when trying to add an
              index to MongoDB Collection: ' . $e->getMessage());
             // @codeCoverageIgnoreEnd
         }
@@ -1380,12 +1375,12 @@ class Builder
     public function removeIndex($collection = '', $keys = array())
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection specified to remove
+            throw new Exception('No Mongo collection specified to remove
              index from');
         }
 
         if (empty($keys) OR ! is_array($keys)) {
-            throw new \MongoQB\Exception('Index could not be removed from MongoDB
+            throw new Exception('Index could not be removed from MongoDB
              Collection because no keys were specified');
         }
 
@@ -1395,7 +1390,7 @@ class Builder
             return $this;
         } else {
             // @codeCoverageIgnoreStart
-            throw new \MongoQB\Exception('An error occurred when trying to remove
+            throw new Exception('An error occurred when trying to remove
              an index from MongoDB Collection');
             // @codeCoverageIgnoreEnd
         }
@@ -1416,7 +1411,7 @@ class Builder
     public function removeAllIndexes($collection = '')
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection specified to remove
+            throw new Exception('No Mongo collection specified to remove
              all indexes from');
         }
         $this->_dbhandle->{$collection}->deleteIndexes();
@@ -1438,7 +1433,7 @@ class Builder
     public function listIndexes($collection = '')
     {
         if (empty($collection)) {
-            throw new \MongoQB\Exception('No Mongo collection specified to remove
+            throw new Exception('No Mongo collection specified to remove
              all indexes from');
         }
 
@@ -1521,7 +1516,7 @@ class Builder
         }
         // @codeCoverageIgnoreStart
         catch (MongoConnectionException $Exception) {
-                throw new \MongoQB\Exception('Unable to connect to MongoDB: ' .
+                throw new Exception('Unable to connect to MongoDB: ' .
                  $Exception->getMessage());
                 // @codeCoverageIgnoreEnd
         }
@@ -1538,7 +1533,7 @@ class Builder
         $this->_dsn = trim($this->_configData['dsn']);
 
         if (empty($this->_dsn)) {
-            throw new \MongoQB\Exception('The DSN is empty');
+            throw new Exception('The DSN is empty');
         }
 
         $this->_persist = $this->_configData['persist'];
@@ -1549,7 +1544,7 @@ class Builder
         $parts = parse_url($this->_dsn);
 
         if ( ! isset($parts['path']) OR str_replace('/', '', $parts['path']) === '') {
-            throw new \MongoQB\Exception('The database name must be set in the DSN string');
+            throw new Exception('The database name must be set in the DSN string');
         }
 
         $this->_dbname = str_replace('/', '', $parts['path']);

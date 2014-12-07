@@ -1,5 +1,6 @@
 <?php
-include 'src/MongoQB/Builder.php';
+
+require_once 'vendor/autoload.php';
 
 class QBtest extends PHPUnit_Framework_TestCase {
 
